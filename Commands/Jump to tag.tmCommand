@@ -14,8 +14,8 @@ tagfile     = ENV['CTAGS_FILE'] || "tags"
 tags        = project_dir + "/" + tagfile
 symbol      = ENV['TM_SELECTED_TEXT'] || ENV['TM_CURRENT_WORD']
   
-def create_tags_file(project_dir)
-  `cd #{project_dir} &amp;&amp; ctags -nR .`
+def create_tags_file(project_dir, tagfile)
+  `cd #{project_dir} &amp;&amp; ctags -R -n -f #{tagfile} .`
 end
 
 def process_no_result
@@ -55,7 +55,7 @@ def strip_symbol(symbol) # For Ruby
   symbol.gsub(/:/, '')
 end
 
-create_tags_file(project_dir) if !File.exist?(tags)
+create_tags_file(project_dir, tagfile) if !File.exist?(tags)
 
 if symbol
   symbol  = strip_symbol(symbol)
