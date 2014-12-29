@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string>yneffzvg@zr.pbz</string>
+	<key>contactName</key>
+	<string>Lars Smit</string>
+	<key>description</key>
+	<string>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+	&lt;key&gt;beforeRunningCommand&lt;/key&gt;
+	&lt;string&gt;nop&lt;/string&gt;
+	&lt;key&gt;command&lt;/key&gt;
+	&lt;string&gt;#!/usr/bin/env ruby -wKU
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
+
+project = ENV['TM_PROJECT_DIRECTORY']
+tagfile = ENV['CTAGS_FILE'] || "TAGS"
+tags    = project+"/"+tagfile
+word    = ENV['TM_SELECTED_TEXT'] || ENV['TM_CURRENT_WORD']
+
+if File.exist?(tags)
+  if word
+    results = `cat #{tags} | grep #{word}`.split("\n").find_all { |x| x.split("\t").first == word }
+    if results.size == 0 
+      puts "Sorry, no matches found for '#{word}'.\nPerhaps you should update your TAGS file by running 'Crate TAGS file'"
+    elsif results.size == 1 
+      values = results[0].split("\t")
+      path = project+"/"+values[1]
+      line = values[2].gsub(";\"","")
+      `mate #{path} -l #{line}`
+    else 
+      items = results.collect { |x| 
+        values = x.split("\t")
+        { 'title' =&amp;gt; values[1],
+          'path'  =&amp;gt; values[1],
+          'line'  =&amp;gt; values[2]
+        }
+      }
+
+      chosen = TextMate::UI.menu(items)
+
+      if chosen 
+        path = "#{project}/#{chosen['path']}" # project +"/" + chosen['path']
+        line = chosen['line'].gsub(";\"","")
+        `mate #{path} -l #{line}`
+      else 
+        puts "Aborted"
+      end
+    end
+  else 
+    puts "Place the cursor at a word or select some text"
+  end
+else 
+  puts "No TAGS file. Please create one using the 'Create TAGS file' command"
+end
+&lt;/string&gt;
+	&lt;key&gt;fallbackInput&lt;/key&gt;
+	&lt;string&gt;word&lt;/string&gt;
+	&lt;key&gt;input&lt;/key&gt;
+	&lt;string&gt;selection&lt;/string&gt;
+	&lt;key&gt;inputFormat&lt;/key&gt;
+	&lt;string&gt;text&lt;/string&gt;
+	&lt;key&gt;keyEquivalent&lt;/key&gt;
+	&lt;string&gt;~.&lt;/string&gt;
+	&lt;key&gt;name&lt;/key&gt;
+	&lt;string&gt;Jump to tag&lt;/string&gt;
+	&lt;key&gt;outputCaret&lt;/key&gt;
+	&lt;string&gt;afterOutput&lt;/string&gt;
+	&lt;key&gt;outputFormat&lt;/key&gt;
+	&lt;string&gt;text&lt;/string&gt;
+	&lt;key&gt;outputLocation&lt;/key&gt;
+	&lt;string&gt;toolTip&lt;/string&gt;
+	&lt;key&gt;scope&lt;/key&gt;
+	&lt;string&gt;source&lt;/string&gt;
+	&lt;key&gt;uuid&lt;/key&gt;
+	&lt;string&gt;7FA78A1E-B63E-4BBA-BC24-0D78261037B6&lt;/string&gt;
+	&lt;key&gt;version&lt;/key&gt;
+	&lt;string&gt;2&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</string>
+	<key>name</key>
+	<string>JumpTo</string>
+	<key>uuid</key>
+	<string>EB3F4DD7-72A6-4F4D-BFB3-500B7C74F2D4</string>
+</dict>
+</plist>

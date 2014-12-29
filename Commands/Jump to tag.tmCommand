@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18 -w
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
+
+project_dir = ENV['TM_PROJECT_DIRECTORY']
+tagfile     = ENV['CTAGS_FILE'] || "tags"
+tags        = project_dir + "/" + tagfile
+symbol      = ENV['TM_SELECTED_TEXT'] || ENV['TM_CURRENT_WORD']
+  
+def create_tags_file(project_dir)
+  `cd #{project_dir} &amp;&amp; ctags -nR .`
+end
+
+def process_no_result
+  puts "No results"
+end
+
+def process_one_result(project_dir, results)
+  values = results[0].split("\t")
+  path   = project_dir + '/' + values[1]
+  line   = values[2].gsub(";\"","")
+  open_file(path, line)
+end
+
+def process_more_results(project_dir, results)
+  items = results.collect { |x|
+    values = x.split("\t")
+    { 'title' =&gt; values[4].to_s + ' ' + values[1] + ':' + values[2].gsub(";\"",""),
+      'path'  =&gt; values[1],
+      'line'  =&gt; values[2]
+    }
+  } 
+  chosen = TextMate::UI.menu(items)
+  if chosen
+    path = project_dir + '/' + chosen['path']
+    line = chosen['line'].gsub(";\"","")
+    open_file(path, line)
+  else
+    puts "Aborted"
+  end
+end
+
+def open_file(path, line)
+  `mate #{path} -l #{line}`
+end
+
+def strip_symbol(symbol)
+  symbol.gsub(/:/, '')
+end
+
+create_tags_file(project_dir) if !File.exist?(tags)
+
+if symbol
+  symbol  = strip_symbol(symbol)
+  results = `cat #{tags} | grep #{symbol}`.split("\n").find_all { |x| x.split("\t").first == symbol }
+  if results.size == 0
+    process_no_result
+  elsif results.size == 1
+    process_one_result(project_dir, results)
+  elsif results.size &gt; 1
+    process_more_results(project_dir, results)
+  end
+end</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>~.</string>
+	<key>name</key>
+	<string>Jump to tag</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>toolTip</string>
+	<key>scope</key>
+	<string>source</string>
+	<key>uuid</key>
+	<string>7FA78A1E-B63E-4BBA-BC24-0D78261037B6</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>
