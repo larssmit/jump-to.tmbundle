@@ -51,7 +51,7 @@ def open_file(path, line)
   `mate #{path} -l #{line}`
 end
 
-def strip_symbol(symbol)
+def strip_symbol(symbol) # For Ruby
   symbol.gsub(/:/, '')
 end
 
