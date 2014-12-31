@@ -10,9 +10,30 @@ Based on the work of Mads Hartmann Jensen(mads379@gmail.com) at https://github.c
 
 # Requirements
 
-You will need a version of CTAGS that doesn't ship with OS X. You can install it using [Homebrew](http://mxcl.github.com/homebrew/)
+The default ``ctags`` executable in OSX does not support recursive directory search (i.e. ``ctags -R``). To get a proper copy of ctags, use one of the following options:
 
-	brew install ctags
+* Using `Homebrew`_::
+
+    brew install ctags
+
+* Using `MacPorts`_::
+
+    port install ctags
+
+.. _`Homebrew`: http://mxcl.github.com/homebrew/
+.. _`MacPorts`: http://www.macports.org/
+
+Ensure that the ``PATH`` is updated so the correct version is run:
+
+If ``which ctags`` doesn't point at ctags in ``/usr/local/bin``, make sure you add ``/usr/local/bin`` to your ``PATH`` ahead of the folder ``which ctags`` reported.
+
+# How to install
+
+Clone this repository into ~/Library/Application Support/Avian/Bundles:
+
+	git clone https://github.com/larssmit/jump-to.tmbundle.git
+
+JumpTo should appear under the "Bundles" menu item in TextMate 2.
 
 # License
 
