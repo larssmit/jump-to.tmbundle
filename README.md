@@ -12,16 +12,13 @@ Based on the work of Mads Hartmann Jensen(mads379@gmail.com) at https://github.c
 
 The default ``ctags`` executable in OSX does not support recursive directory search (i.e. ``ctags -R``). To get a proper copy of ctags, use one of the following options:
 
-* Using `Homebrew`_::
+* Using [Homebrew](http://mxcl.github.com/homebrew/ "Homebrew")
 
     brew install ctags
 
-* Using `MacPorts`_::
+* Using [MacPorts](http://www.macports.org/ "MacPorts")
 
     port install ctags
-
-.. _`Homebrew`: http://mxcl.github.com/homebrew/
-.. _`MacPorts`: http://www.macports.org/
 
 Ensure that the ``PATH`` is updated so the correct version is run:
 
