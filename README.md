@@ -32,6 +32,12 @@ Clone this repository into ~/Library/Application Support/Avian/Bundles:
 
 JumpTo should appear under the "Bundles" menu item in TextMate 2.
 
+Also make sure the TM_CTAGS variable is pointing to the right Ctags path. If not, change this here:
+
+TextMate -> Preferences -> Variables 
+
+and make an entry with Variable name 'CTAGS' and Value the path to the ctags command.
+
 # License
 
 If not otherwise specified (see below), files in this repository fall under the following license:

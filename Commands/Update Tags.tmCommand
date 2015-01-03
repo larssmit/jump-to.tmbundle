@@ -12,8 +12,6 @@ tagfile     = ENV['CTAGS_FILE'] || 'tags'
 tags        = "#{project_dir}/#{tagfile}"
 ctags       = ENV['TM_CTAGS']
 
-puts ctags
-
 def create_tags_file(project_dir, tagfile, ctags)
   `cd #{project_dir} &amp;&amp; #{ctags} -R -n -f #{tagfile} .`
 end
