@@ -10,21 +10,17 @@
 require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
 
 project_dir = ENV['TM_PROJECT_DIRECTORY']
-tagfile     = ENV['CTAGS_FILE'] || "tags"
-tags        = project_dir + "/" + tagfile
+tagfile     = ENV['CTAGS_FILE'] || 'tags'
+tags        = "#{project_dir}/#{tagfile}"
 symbol      = ENV['TM_SELECTED_TEXT'] || ENV['TM_CURRENT_WORD']
   
-def create_tags_file(project_dir, tagfile)
-  `cd #{project_dir} &amp;&amp; ctags -R -n -f #{tagfile} .`
-end
-
 def process_no_result
   puts "No results"
 end
 
 def process_one_result(project_dir, results)
   values = results[0].split("\t")
-  path   = project_dir + '/' + values[1]
+  path   = "#{project_dir}/#{values[1]}"
   line   = values[2].gsub(";\"","")
   open_file(path, line)
 end
@@ -32,14 +28,14 @@ end
 def process_more_results(project_dir, results)
   items = results.collect { |x|
     values = x.split("\t")
-    { 'title' =&gt; values[4].to_s + ' ' + values[1] + ':' + values[2].gsub(";\"",""),
+    { 'title' =&gt; values[4].to_s + " " + values[1] + ":" + values[2].gsub(";\"",""),
       'path'  =&gt; values[1],
       'line'  =&gt; values[2]
     }
   } 
   chosen = TextMate::UI.menu(items)
   if chosen
-    path = project_dir + '/' + chosen['path']
+    path = "#{project_dir}/#{chosen['path']}"
     line = chosen['line'].gsub(";\"","")
     open_file(path, line)
   else
@@ -55,7 +51,10 @@ def strip_symbol(symbol) # For Ruby
   symbol.gsub(/:/, '')
 end
 
-create_tags_file(project_dir, tagfile) if !File.exist?(tags)
+if !File.exist?(tags)
+  puts "Create Tags file first! (Use Create/Update Tags command)"
+  exit
+end
 
 if symbol
   symbol  = strip_symbol(symbol)
@@ -77,7 +76,7 @@ end</string>
 	<key>keyEquivalent</key>
 	<string>~.</string>
 	<key>name</key>
-	<string>Jump to tag</string>
+	<string>Jump To Tag</string>
 	<key>outputCaret</key>
 	<string>afterOutput</string>
 	<key>outputFormat</key>
