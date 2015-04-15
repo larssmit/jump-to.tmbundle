@@ -13,11 +13,11 @@ tags        = "#{project_dir}/#{tagfile}"
 ctags       = ENV['TM_CTAGS']
 
 def create_tags_file(project_dir, tagfile, ctags)
-  `cd #{project_dir} &amp;&amp; #{ctags} -R -n -f #{tagfile} .`
+  `cd "#{project_dir}" &amp;&amp; #{ctags} -R -n -f #{tagfile} .`
 end
 
 def update_tags_file(project_dir, tagfile, ctags)
-  `cd #{project_dir} &amp;&amp; #{ctags} -R -n -a -f #{tagfile}` 
+  `cd "#{project_dir}" &amp;&amp; #{ctags} -R -n -a -f #{tagfile}` 
 end
 
 if !File.exist?(tags)

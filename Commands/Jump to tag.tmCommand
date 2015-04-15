@@ -20,7 +20,7 @@ end
 
 def process_one_result(project_dir, results)
   values = results[0].split("\t")
-  path   = "#{project_dir}/#{values[1]}"
+  path   = "#{project_dir}/#{values[1]}".gsub(/ /, "\ ")
   line   = values[2].gsub(";\"","")
   open_file(path, line)
 end
@@ -35,7 +35,7 @@ def process_more_results(project_dir, results)
   } 
   chosen = TextMate::UI.menu(items)
   if chosen
-    path = "#{project_dir}/#{chosen['path']}"
+    path = "#{project_dir}/#{chosen['path']}".gsub(/ /, "\ ")
     line = chosen['line'].gsub(";\"","")
     open_file(path, line)
   else
@@ -44,7 +44,7 @@ def process_more_results(project_dir, results)
 end
 
 def open_file(path, line)
-  `mate #{path} -l #{line}`
+  `mate "#{path}" -l #{line}`
 end
 
 def strip_symbol(symbol) # For Ruby
@@ -58,7 +58,7 @@ end
 
 if symbol
   symbol  = strip_symbol(symbol)
-  results = `cat #{tags} | grep #{symbol}`.split("\n").find_all { |x| x.split("\t").first == symbol }
+  results = `cat "#{tags}" | grep #{symbol}`.split("\n").find_all { |x| x.split("\t").first == symbol }
   if results.size == 0
     process_no_result
   elsif results.size == 1
