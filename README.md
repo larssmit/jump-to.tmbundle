@@ -6,7 +6,7 @@ Current features:
 
 ⎇. : Jump to definition of anything selected/under the cursor (defined in your project). If multiple definitions exist you will have to select the proper file from a menu.
 
-Based on the work of Mads Hartmann Jensen(mads379@gmail.com) at https://github.com/mads379/CTAGS-Improved.tmbundle.
+Based on the work of [Mads Hartmann Jensen](mads379@gmail.com) at https://github.com/mads379/CTAGS-Improved.tmbundle.
 
 # Requirements
 
@@ -14,11 +14,11 @@ The default ``ctags`` executable in OSX does not support recursive directory sea
 
 * Using [Homebrew](http://mxcl.github.com/homebrew/ "Homebrew")
 
-    brew install ctags
+    `brew install ctags`
 
 * Using [MacPorts](http://www.macports.org/ "MacPorts")
 
-    port install ctags
+    `port install ctags`
 
 Ensure that the ``PATH`` is updated so the correct version is run:
 
@@ -26,17 +26,21 @@ If ``which ctags`` doesn't point at ctags in ``/usr/local/bin``, make sure you a
 
 # How to install
 
-Clone this repository into ~/Library/Application Support/Avian/Bundles:
+Clone this repository into `~/Library/Application Support/Avian/Bundles`:
 
-	git clone https://github.com/larssmit/jump-to.tmbundle.git
+```
+git clone https://github.com/larssmit/jump-to.tmbundle.git
+```
 
 JumpTo should appear under the "Bundles" menu item in TextMate 2.
 
-Also make sure the TM_CTAGS variable is pointing to the right Ctags path. If not, change this here:
+Also make sure the `TM_CTAGS` variable is pointing to the right Ctags path. If not, change this here:
 
-TextMate -> Preferences -> Variables 
+```
+TextMate -> Preferences -> Variables
+```
 
-and make an entry with Variable name 'CTAGS' and Value the path to the ctags command.
+and make an entry with Variable name `TM_CTAGS` and Value the path to the ctags command.
 
 # License
 
